@@ -1,4 +1,4 @@
-# SPH - PHP exercise solution #
+# Media provider solution #
 
 ## Prerequisites
 
