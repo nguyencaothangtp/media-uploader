@@ -1,0 +1,62 @@
+version: '3.3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    container_name: media-uploader-app
+    working_dir: /home/www/html
+    environment:
+      APP_ENV: prod
+    volumes:
+      - ./:/home/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./docker/supervisord/supervisord.conf:/etc/supervisor/supervisord.conf # mapping supervisord.conf
+    networks:
+      - media-uploader-network
+
+  #Database
+  db:
+    image: mysql:5.7.22
+    container_name: media-uploader-db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecurepassword
+      MYSQL_DATABASE: media-uploader-db
+      MYSQL_USER: media-uploader-user
+      MYSQL_PASSWORD: mysecurepassword
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - media-uploader-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: media-uploader-webserver
+    depends_on:
+      - app
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/home/www/html
+      - ./logs:/var/log/nginx
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - media-uploader-network
+
+#Docker Networks
+networks:
+  media-uploader-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local

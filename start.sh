@@ -8,7 +8,7 @@ set -e [ -f ".env" ]
 export $(cat .env | grep -v ^# | xargs);
 
 echo Starting services
-docker-compose up -d
+docker-compose -f docker-compose.prod.yml up -d
 
 echo Generate/Reset app key
 docker-compose exec app php artisan config:clear
@@ -25,5 +25,5 @@ echo Installing dependencies
 docker-compose exec app composer install
 
 #echo Seeding database
-docker-compose exec app php artisan migrate --env=local && echo Database migrated
-docker-compose exec app php artisan db:seed --env=local && echo Database seeded
+docker-compose exec app php artisan migrate --env=prod && echo Database migrated
+docker-compose exec app php artisan db:seed --env=prod && echo Database seeded

@@ -2,20 +2,36 @@
 
 namespace App\Repositories;
 
+use App\Helpers\ImageHelper;
 use App\Models\Media;
 
 class MediaRepository implements MediaRepositoryInterface
 {
-    public function save($data)
+    public function save($data, $type)
     {
-        $newFile = $this->upload($data->file('image_file'));
-
-        return Media::create([
-            'type' => 'image',
+        $payload = [
+            'type' => $type,
             'name' => $data['name'],
             'provider_id' => $data['provider'],
-            'path' => $newFile->getPathname()
-        ]);
+        ];
+
+        $newFile = null;
+        switch ($type) {
+            case 'image':
+                $newFile = $this->upload($data->file('image_file'));
+                break;
+            case 'video':
+                $newFile = $this->upload($data->file('video_file'));
+
+                $thumbnail = ImageHelper::generateThumbnail($newFile->getRealPath(), $data['name'] . '_thumb');
+                $payload['thumbnail'] = $thumbnail;
+
+                break;
+        }
+
+        $payload['path'] = $newFile->getPathname();
+
+        return Media::create($payload);
     }
 
     private function upload($file)

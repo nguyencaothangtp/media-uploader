@@ -21,4 +21,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('media', [MediaController::class, 'list']);
 
     Route::post('upload/image', [UploadController::class, 'image']);
+    Route::post('upload/video', [UploadController::class, 'video']);
 });

@@ -2,11 +2,11 @@
 
 namespace App\Rules;
 
-use App\Helpers\ImageHelper;
 use App\Models\Provider;
+use FFMpeg\FFProbe;
 use Illuminate\Contracts\Validation\Rule;
 
-class ImageValidation implements Rule
+class VideoValidation implements Rule
 {
     private $providerId;
     private $errorMessage = '';
@@ -37,15 +37,15 @@ class ImageValidation implements Rule
         }
 
         $mediaRules = json_decode($provider->getAttribute('media_rules'));
-        if ($mediaRules && property_exists($mediaRules, 'image')) {
+        if ($mediaRules && property_exists($mediaRules, 'video')) {
 
             // Extension validation
-            if (strpos($mediaRules->image->extension, $value->extension()) === false) {
-                $this->errorMessage = 'Image extension "' . $value->extension() . '" is not allowed';
+            if (strpos($mediaRules->video->extension, $value->extension()) === false) {
+                $this->errorMessage = 'Video extension "' . $value->extension() . '" is not allowed';
                 return false;
             }
 
-            foreach ($mediaRules->image->rules as $rule) {
+            foreach ($mediaRules->video->rules as $rule) {
                 $operator = $rule->operator;
 
                 switch ($rule->name) {
@@ -56,17 +56,17 @@ class ImageValidation implements Rule
                         }
                         break;
 
-                    case 'ratio':
-                        $imageDetail = getimagesize($value);
-                        $width = $imageDetail[0];
-                        $height = $imageDetail[1];
+                    case 'duration':
+                        $ffprobe = FFProbe::create();
+                        $duration = $ffprobe
+                            ->format($value->getRealPath())
+                            ->get('duration');
 
-                        $ratio = ImageHelper::calculateRatio($width, $height);
-
-                        if (!version_compare($ratio, $rule->value, $operator)) {
+                        if (!version_compare($duration, $rule->value, $operator)) {
                             $this->errorMessage = $rule->description;
                             return false;
                         }
+
                         break;
                 }
             }

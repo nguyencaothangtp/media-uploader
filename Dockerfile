@@ -5,7 +5,7 @@ COPY composer.lock composer.json /home/www/html/
 WORKDIR /home/www/html
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get -y upgrade && apt-get install -y \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl
+    curl \
+    ffmpeg
 
 # Install supervisord
 RUN apt-get update \
@@ -33,7 +34,7 @@ RUN docker-php-ext-install gd
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install xdebug
-RUN yes | pecl install xdebug-2.9.1
+#RUN yes | pecl install xdebug-2.9.1
 
 # Add user for laravel application
 RUN groupadd -g 1000 www
