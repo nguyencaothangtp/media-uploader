@@ -33,7 +33,7 @@ RUN docker-php-ext-install gd
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install xdebug
-RUN yes | pecl install xdebug
+RUN yes | pecl install xdebug-2.9.1
 
 # Add user for laravel application
 RUN groupadd -g 1000 www

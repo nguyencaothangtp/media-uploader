@@ -12,7 +12,7 @@ services:
     working_dir: /home/www/html
     environment:
       APP_ENV: local
-      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=9000 # for xdebug
+      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9000 # for xdebug
       PHP_IDE_CONFIG: serverName=docker # for xdebug
     volumes:
       - ./:/home/www/html
@@ -45,7 +45,7 @@ services:
     depends_on:
       - app
     ports:
-      - 8080:80
+      - 80:80
       - 443:443
     volumes:
       - ./:/home/www/html
