@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a16c3c541bd99241cab1c21ce8e83ac",
+    "content-hash": "07691c3e9f2d505f1fbe06132b12aabf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1379,6 +1379,53 @@
                 }
             ],
             "time": "2021-01-18T20:58:21+00:00"
+        },
+        {
+            "name": "matthenning/eloquent-api-filter",
+            "version": "v1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matthenning/eloquent-api-filter.git",
+                "reference": "9146f4522201d6ceee981f382e9fe52b9c5d18b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matthenning/eloquent-api-filter/zipball/9146f4522201d6ceee981f382e9fe52b9c5d18b7",
+                "reference": "9146f4522201d6ceee981f382e9fe52b9c5d18b7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": ">=5.4",
+                "illuminate/http": ">=5.4",
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Matthenning\\EloquentApiFilter": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Henning",
+                    "email": "pub@matthias-henning.de"
+                }
+            ],
+            "description": "Awesome and simple way to filter Eloquent queries right from the API call url",
+            "keywords": [
+                "api",
+                "eloquent",
+                "filtering"
+            ],
+            "support": {
+                "issues": "https://github.com/matthenning/eloquent-api-filter/issues",
+                "source": "https://github.com/matthenning/eloquent-api-filter/tree/v1.5"
+            },
+            "time": "2020-05-03T10:18:47+00:00"
         },
         {
             "name": "monolog/monolog",

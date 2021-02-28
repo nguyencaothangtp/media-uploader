@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,6 +27,11 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    public function report(Throwable $e)
+    {
+        Log::warning($e->getMessage()); // Log error for later trace back
+    }
 
     /**
      * Register the exception handling callbacks for the application.

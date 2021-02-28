@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1'], function () {
+    Route::get('providers', [ProviderController::class, 'list']);
+    Route::get('media', [MediaController::class, 'list']);
+
+    Route::post('upload/image', [UploadController::class, 'image']);
 });
